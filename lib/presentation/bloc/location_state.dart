@@ -1,7 +1,7 @@
 import 'package:equatable/equatable.dart';
-import '../../domian/entities/location_record.dart';
+import '../../domain/entities/location_record.dart';
 
-enum TrackingStatus { initial, loading, tracking, stopped, syncing, synced, error }
+enum TrackingStatus { initial, loading, tracking, stopped, syncing, error }
 
 class LocationState extends Equatable {
   final TrackingStatus status;

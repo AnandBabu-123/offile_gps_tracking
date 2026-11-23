@@ -1,6 +1,6 @@
 import 'package:sqflite/sqflite.dart';
 import 'package:path/path.dart';
-import '../../domian/entities/location_record.dart';
+import '../../domain/entities/location_record.dart';
 
 class LocalDatabase {
   static Database? _database;

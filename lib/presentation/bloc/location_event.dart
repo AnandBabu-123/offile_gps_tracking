@@ -1,5 +1,6 @@
 import 'package:equatable/equatable.dart';
 
+
 abstract class LocationEvent extends Equatable {
   const LocationEvent();
   @override
@@ -8,6 +9,7 @@ abstract class LocationEvent extends Equatable {
 
 class StartTracking extends LocationEvent {}
 class StopTracking extends LocationEvent {}
+
 class NewLocationReceived extends LocationEvent {
   final double lat;
   final double lng;
@@ -15,4 +17,5 @@ class NewLocationReceived extends LocationEvent {
   @override
   List<Object> get props => [lat, lng];
 }
+
 class SyncData extends LocationEvent {}

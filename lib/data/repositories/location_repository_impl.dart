@@ -1,12 +1,14 @@
-
-import '../../domian/entities/location_record.dart';
-import '../../domian/repositories/location_repository.dart';
+import 'dart:math';
+import '../../domain/entities/location_record.dart';
+import '../../domain/repositories/location_repository.dart';
 import '../datasources/local_database.dart';
+import '../datasources/mock_api_client.dart';
 
 class LocationRepositoryImpl implements LocationRepository {
   final LocalDatabase localDatabase;
+  final MockApiClient apiClient;
 
-  LocationRepositoryImpl({required this.localDatabase});
+  LocationRepositoryImpl({required this.localDatabase, required this.apiClient});
 
   @override
   Future<void> saveLocationLocally(LocationRecord record) async {
@@ -25,9 +27,11 @@ class LocationRepositoryImpl implements LocationRepository {
 
   @override
   Future<bool> syncWithMockApi(LocationRecord record) async {
-    // Mock REST API call simulation
-    await Future.delayed(const Duration(seconds: 1));
-    // Simulate success. In reality, use http.post() here.
-    return true;
+    return await apiClient.uploadLocation({
+      'id': record.id,
+      'latitude': record.latitude,
+      'longitude': record.longitude,
+      'timestamp': record.timestamp.toIso8601String(),
+    });
   }
 }

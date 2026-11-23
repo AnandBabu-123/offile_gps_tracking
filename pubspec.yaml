@@ -37,7 +37,10 @@ dependencies:
   path: ^1.8.3
   connectivity_plus: ^6.0.3
   http: ^1.1.0
-  google_fonts: ^6.1.0 # For proper UI and fonts as requested
+  google_fonts: ^6.1.0
+  uuid: ^4.3.3
+  flutter_background_service: ^5.0.1
+  flutter_local_notifications: ^23.0.4
 
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.

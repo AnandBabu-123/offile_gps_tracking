@@ -4,6 +4,7 @@ import '../bloc/location_bloc.dart';
 import '../bloc/location_event.dart';
 import '../bloc/location_state.dart';
 
+
 class HomePage extends StatelessWidget {
   const HomePage({super.key});
 
@@ -24,6 +25,8 @@ class HomePage extends StatelessWidget {
           }
         },
         builder: (context, state) {
+          final hasUnsynced = state.currentLocations.any((loc) => !loc.isSynced);
+
           return Padding(
             padding: const EdgeInsets.all(20.0),
             child: Column(
@@ -51,6 +54,23 @@ class HomePage extends StatelessWidget {
                     ),
                   ],
                 ),
+                if (hasUnsynced)
+                  Padding(
+                    padding: const EdgeInsets.only(top: 16.0),
+                    child: ElevatedButton.icon(
+                      onPressed: state.status == TrackingStatus.syncing
+                          ? null
+                          : () => context.read<LocationBloc>().add(SyncData()),
+                      icon: state.status == TrackingStatus.syncing
+                          ? const SizedBox(width: 16, height: 16, child: CircularProgressIndicator(strokeWidth: 2))
+                          : const Icon(Icons.sync),
+                      label: Text(state.status == TrackingStatus.syncing ? 'Syncing...' : 'Retry Sync'),
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: Colors.orange.shade100,
+                        foregroundColor: Colors.orange.shade900,
+                      ),
+                    ),
+                  ),
                 const SizedBox(height: 20),
                 const Text("Recorded Locations:", style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
                 const SizedBox(height: 10),
@@ -63,10 +83,13 @@ class HomePage extends StatelessWidget {
                         child: ListTile(
                           leading: Icon(
                             loc.isSynced ? Icons.cloud_done : Icons.cloud_off,
-                            color: loc.isSynced ? Colors.green : Colors.grey,
+                            color: loc.isSynced ? Colors.green : Colors.red,
                           ),
                           title: Text('Lat: ${loc.latitude.toStringAsFixed(4)}, Lng: ${loc.longitude.toStringAsFixed(4)}'),
-                          subtitle: Text(loc.timestamp.toString().substring(11, 19)),
+                          subtitle: Text(
+                            loc.isSynced ? 'Synced' : 'Not Synced (Pending Upload)',
+                            style: TextStyle(color: loc.isSynced ? Colors.grey : Colors.red),
+                          ),
                         ),
                       );
                     },
