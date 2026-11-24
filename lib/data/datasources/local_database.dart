@@ -58,4 +58,17 @@ class LocalDatabase {
     final db = await database;
     await db.update('locations', {'isSynced': 1}, where: 'id = ?', whereArgs: [id]);
   }
+  Future<List<LocationRecord>> getAllLocations() async {
+    final db = await database;
+    final maps = await db.query('locations');
+
+    return maps.map((map) => LocationRecord(
+      id: map['id'] as String,
+      latitude: map['latitude'] as double,
+      longitude: map['longitude'] as double,
+      timestamp: DateTime.fromMillisecondsSinceEpoch(map['timestamp'] as int),
+      isSynced: (map['isSynced'] as int) == 1,
+    )).toList();
+  }
+
 }

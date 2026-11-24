@@ -1,4 +1,4 @@
-import 'dart:math';
+
 import '../../domain/entities/location_record.dart';
 import '../../domain/repositories/location_repository.dart';
 import '../datasources/local_database.dart';
@@ -14,6 +14,11 @@ class LocationRepositoryImpl implements LocationRepository {
   Future<void> saveLocationLocally(LocationRecord record) async {
     await localDatabase.insertLocation(record);
   }
+  @override
+  Future<List<LocationRecord>> getAllLocations() async {
+    return await localDatabase.getAllLocations();
+  }
+
 
   @override
   Future<List<LocationRecord>> getUnsyncedLocations() async {

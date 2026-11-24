@@ -19,3 +19,4 @@ class NewLocationReceived extends LocationEvent {
 }
 
 class SyncData extends LocationEvent {}
+class AppStarted extends LocationEvent {}
